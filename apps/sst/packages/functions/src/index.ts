@@ -1,5 +1,5 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "database";
 
 const client = new PrismaClient();
 

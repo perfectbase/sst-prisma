@@ -1,31 +1,25 @@
 {
-  "name": "sst-prisma",
-  "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "sst dev",
-    "build": "sst build",
-    "deploy": "sst deploy",
-    "remove": "sst remove",
-    "console": "sst console",
-    "typecheck": "tsc --noEmit"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "db:generate": "npx -w database prisma generate",
+    "db:push": "DATABASE_URL=file:./db.sqlite npx -w database prisma db push",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "sst": "^2.19.1",
-    "aws-cdk-lib": "2.84.0",
-    "constructs": "10.1.156",
-    "typescript": "^5.1.6",
-    "@tsconfig/node16": "^16.1.0",
-    "@types/fs-extra": "^11.0.1",
-    "prisma": "^4.16.2"
+    "@turbo/gen": "^1.9.7",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "prettier": "^2.5.1",
+    "turbo": "latest"
   },
+  "name": "turbo-sst-prisma",
+  "packageManager": "npm@9.6.5",
   "workspaces": [
+    "apps/*",
+    "apps/sst/packages/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "prisma": "^4.16.2",
-    "fs-extra": "^11.1.1",
-    "@prisma/client": "^4.16.2"
-  }
+  ]
 }

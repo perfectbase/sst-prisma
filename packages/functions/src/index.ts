@@ -12,8 +12,8 @@ export const handler: APIGatewayProxyHandlerV2 = async () => {
     };
   } catch (ex) {
     return {
-      statusCode: 200,
-      body: ex.toString(),
+      statusCode: 500,
+      body: String(ex),
     };
   }
 };

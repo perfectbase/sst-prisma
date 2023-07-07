@@ -1,5 +1,5 @@
 import path from "path";
-import fs from "fs";
+import fs from "fs-extra";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import { Api, StackContext } from "sst/constructs";
 
@@ -10,7 +10,7 @@ export function ExampleStack({ stack, app }: StackContext) {
     const layerPath = ".sst/layers/prisma";
 
     // Clear out the layer path
-    fs.removeSync(layerPath, { force: true, recursive: true });
+    fs.rmSync(layerPath, { force: true, recursive: true });
     fs.mkdirSync(layerPath, { recursive: true });
 
     // Copy files to the layer
@@ -36,15 +36,14 @@ export function ExampleStack({ stack, app }: StackContext) {
   const api = new Api(stack, "Api", {
     defaults: {
       function: {
+        runtime: "nodejs18.x",
         environment: {
-          DATABASE_URL: app.local
-            ? "mysql://root@localhost:3306/test"
-            : "mysql://production-url",
+          DATABASE_URL: "file:./db.sqlite",
         },
         nodejs: {
           esbuild: {
             // Only reference external modules when deployed
-            externalModules: app.local ? [] : ["@prisma/client", ".prisma"],
+            external: app.local ? [] : ["@prisma/client", ".prisma"],
           },
         },
       },
